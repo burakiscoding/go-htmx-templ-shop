@@ -1,0 +1,33 @@
+package templates
+
+import (
+	"fmt"
+	"github.com/burakiscoding/go-htmx-templ/stores"
+)
+
+// TODO: Move these functions to utils
+func quantityText(quantity int) string {
+	return fmt.Sprintf("%d", quantity)
+}
+
+func unitPriceText(unitPrice float32) string {
+	return fmt.Sprintf("%f", unitPrice)
+}
+
+func safeURL(id int) templ.SafeURL {
+	return templ.URL(fmt.Sprintf("%d", id))
+}
+
+templ HomePage(products []stores.Product) {
+	@Layout("Home") {
+		<div class="products-container">
+			<h3>Products</h3>
+			@ProductAddContainer()
+			<div id="products" class="products">
+				for _, product := range products {
+					@Product(product)
+				}
+			</div>
+		</div>
+	}
+}

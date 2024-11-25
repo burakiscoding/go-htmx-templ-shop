@@ -1,0 +1,28 @@
+package templates
+
+templ Layout(title string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title }</title>
+			<script src="https://unpkg.com/htmx.org"></script>
+			<link rel="stylesheet" href="/static/css/style.css"/>
+		</head>
+		<body>
+			<header>
+				<h1>Welcome to the Shop</h1>
+			</header>
+			{ children... }
+			<footer>
+				<p>You are reading the footer</p>
+			</footer>
+			<script src="/static/js/main.js"></script>
+		</body>
+	</html>
+}
+
+templ NoContent() {
+	<div></div>
+}

@@ -1,0 +1,71 @@
+package templates
+
+import (
+	"fmt"
+	"github.com/burakiscoding/go-htmx-templ/stores"
+)
+
+templ Product(product stores.Product) {
+	<div hx-target="this" hx-swap="outerHTML" class="product-list-item">
+		<div><label>Name</label>:{ product.Name }</div>
+		<br/>
+		<p><label>Quantity</label>:{ quantityText(product.Quantity) }</p>
+		<br/>
+		<p><label>Unit Price</label>:{ unitPriceText(product.UnitPrice) }</p>
+		<br/>
+		<button hx-get={ fmt.Sprintf("/%d/edit", product.Id) }>Edit</button>
+		<button hx-confirm="Are you sure?" hx-delete={ fmt.Sprintf("/%d", product.Id) }>Delete</button>
+	</div>
+}
+
+templ ProductEditForm(product stores.Product) {
+	<form hx-put={ fmt.Sprintf("/%d", product.Id) } hx-target="this" hx-swap="outerHTML" class="product-list-item">
+		<div>
+			<label>Name:</label>
+			<input type="text" name="name" value={ product.Name }/>
+		</div>
+		<br/>
+		<div>
+			<label>Quantity:</label>
+			<input type="number" name="quantity" value={ fmt.Sprintf("%d", product.Quantity) }/>
+		</div>
+		<br/>
+		<div>
+			<label>Unit Price:</label>
+			<input type="number" name="unit_price" value={ fmt.Sprintf("%f", product.UnitPrice) }/>
+		</div>
+		<br/>
+		<button>Submit</button>
+		<button hx-get={ fmt.Sprintf("/%d", product.Id) }>Cancel</button>
+	</form>
+}
+
+templ ProductAddForm() {
+	<form id="product-add-form" hx-post="/" hx-target="#products" hx-swap="afterbegin">
+		<div>
+			<label>Name:</label>
+			<input type="text" name="name"/>
+		</div>
+		<br/>
+		<div>
+			<label>Quantity:</label>
+			<input type="number" name="quantity"/>
+		</div>
+		<br/>
+		<div>
+			<label>Unit Price:</label>
+			<input type="number" name="unit_price"/>
+		</div>
+		<br/>
+		<button>Submit</button>
+		<button hx-get="/nocontent/" hx-target="#product-add-form-container" hx-swap="innerHTML">Cancel</button>
+	</form>
+}
+
+templ ProductAddContainer() {
+	<div>
+		<button hx-get="/add/" hx-target="#product-add-form-container" hx-swap="innerHTML">Add new</button>
+		<div id="product-add-form-container" class="product-add-form-container"></div>
+		<br>
+	</div>
+}
